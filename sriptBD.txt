@@ -1,0 +1,73 @@
+CREATE DATABASE IF NOT EXISTS entrega_paquetes;
+USE entrega_paquetes;
+
+CREATE TABLE IF NOT EXISTS vehiculo (
+    placa VARCHAR(10) PRIMARY KEY,
+    modelo VARCHAR(50),
+    color VARCHAR(30),
+    marca VARCHAR(50),
+    capacidad_carga DECIMAL(10, 2)
+);
+
+CREATE TABLE IF NOT EXISTS conductor (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombres VARCHAR(50),
+    apellidos VARCHAR(50),
+    numero_licencia VARCHAR(20),
+    telefono VARCHAR(15),
+    correo VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS ruta_programada (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    conductor_id INT,
+    vehiculo_placa VARCHAR(10),
+    fecha DATE,
+    ruta VARCHAR(255),
+    FOREIGN KEY (conductor_id) REFERENCES conductor(id),
+    FOREIGN KEY (vehiculo_placa) REFERENCES vehiculo(placa)
+);
+
+CREATE TABLE IF NOT EXISTS detalle_ruta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ruta_id INT,
+    latitud DECIMAL(10, 8),
+    longitud DECIMAL(11, 8),
+    direccion VARCHAR(255),
+    numero_paquete INT,
+    FOREIGN KEY (ruta_id) REFERENCES ruta_programada(id)
+);
+
+
+
+
+
+
+USE entrega_paquetes;
+
+-- Datos para la tabla vehiculo
+INSERT INTO vehiculo (placa, modelo, color, marca, capacidad_carga) VALUES
+('ABC123', 'Toyota Corolla', 'Rojo', 'Toyota', 1500.00),
+('DEF456', 'Honda Civic', 'Azul', 'Honda', 1200.00),
+('GHI789', 'Ford Fiesta', 'Negro', 'Ford', 1000.00);
+
+-- Datos para la tabla conductor
+INSERT INTO conductor (nombres, apellidos, numero_licencia, telefono, correo) VALUES
+('Juan', 'Perez', '123456789', '3111234567', 'juan.perez@example.com'),
+('Ana', 'Gomez', '987654321', '3127654321', 'ana.gomez@example.com'),
+('Carlos', 'Lopez', '456789123', '3139876543', 'carlos.lopez@example.com');
+
+-- Datos para la tabla ruta_programada
+INSERT INTO ruta_programada (conductor_id, vehiculo_placa, fecha, ruta) VALUES
+(1, 'ABC123', '2025-04-01', 'Ruta 1'),
+(2, 'DEF456', '2025-04-02', 'Ruta 2'),
+(3, 'GHI789', '2025-04-03', 'Ruta 3');
+
+-- Datos para la tabla detalle_ruta
+INSERT INTO detalle_ruta (ruta_id, latitud, longitud, direccion, numero_paquete) VALUES
+(1, 4.7110, -74.0721, 'Calle 1 # 1-1', 1001),
+(1, 4.7120, -74.0731, 'Calle 2 # 2-2', 1002),
+(2, 4.7130, -74.0741, 'Calle 3 # 3-3', 1003),
+(2, 4.7140, -74.0751, 'Calle 4 # 4-4', 1004),
+(3, 4.7150, -74.0761, 'Calle 5 # 5-5', 1005);
+

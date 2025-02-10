@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Ruta - MapLibre</title>
+
+    <!-- Estilos de MapLibre -->
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css">
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+
+    <style>
+        body { margin: 0; padding: 0; }
+        h1 { text-align: center; }
+        #map { width: 100%; height: 90vh; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Mapa de Ruta - MapLibre</h1>
+    <div id="map"></div>
+
+    <script>
+        // Inicializar el mapa
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=8GdrolQKDt3uNkZHDtn7', // API Key de MapTiler
+            center: [-74.04488664305592, 4.757786586246297], // Coordenadas de la bodega
+            zoom: 12
+        });
+
+        // Agregar controles de navegación
+        map.addControl(new maplibregl.NavigationControl());
+
+        // Marcar la bodega de carga
+        new maplibregl.Marker({ color: "red" })
+            .setLngLat([-74.04488664305592, 4.757786586246297])
+            .setPopup(new maplibregl.Popup().setText("Bodega de Carga"))
+            .addTo(map);
+
+        // Obtener el ID de la ruta desde la URL
+        const rutaId = new URLSearchParams(window.location.search).get('rutaId');
+
+        if (!rutaId) {
+            console.error("No se encontró un ID de ruta en la URL.");
+        } else {
+            // Obtener los puntos de entrega desde el backend
+            fetch(`/api/mapa/${rutaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Puntos obtenidos:", data);
+                    if (data.length === 0) {
+                        console.warn("No se encontraron puntos para esta ruta.");
+                        return;
+                    }
+
+                    const puntosEntrega = data.map(punto => {
+                        new maplibregl.Marker({ color: "blue" })
+                            .setLngLat([punto.longitud, punto.latitud])
+                            .setPopup(new maplibregl.Popup().setText(punto.direccion))
+                            .addTo(map);
+                        return `${punto.longitud},${punto.latitud}`;
+                    });
+
+                    // 1️⃣ Optimizar el orden de los puntos sin incluir el regreso a la bodega
+                    const osrmTripUrl = `https://router.project-osrm.org/trip/v1/driving/-74.04488664305592,4.757786586246297;${puntosEntrega.join(";")}?source=first&overview=false`;
+
+                    fetch(osrmTripUrl)
+                        .then(response => response.json())
+                        .then(tripData => {
+                            if (tripData.trips.length > 0) {
+                                // Obtener el orden correcto de los puntos
+                                const waypoints = tripData.waypoints
+                                    .sort((a, b) => a.waypoint_index - b.waypoint_index)
+                                    .map(wp => `${wp.location[0]},${wp.location[1]}`);
+
+                                // 2️⃣ Construir la URL de la ruta optimizada sin regreso
+                                const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${waypoints.join(";")}?overview=full&geometries=geojson`;
+
+                                return fetch(osrmRouteUrl);
+                            } else {
+                                throw new Error("No se pudo optimizar la ruta.");
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(routeData => {
+                            if (routeData.routes.length > 0) {
+                                const coordinates = routeData.routes[0].geometry.coordinates.map(coord => [coord[0], coord[1]]);
+
+                                map.addLayer({
+                                    "id": "ruta",
+                                    "type": "line",
+                                    "source": {
+                                        "type": "geojson",
+                                        "data": {
+                                            "type": "Feature",
+                                            "geometry": {
+                                                "type": "LineString",
+                                                "coordinates": coordinates
+                                            }
+                                        }
+                                    },
+                                    "layout": { "line-join": "round", "line-cap": "round" },
+                                    "paint": { "line-color": "#007bff", "line-width": 5 }
+                                });
+                            } else {
+                                console.warn("No se pudo trazar la ruta.");
+                            }
+                        })
+                        .catch(error => console.error("Error al obtener la ruta optimizada:", error));
+                })
+                .catch(error => console.error("Error en la petición:", error));
+        }
+    </script>
+</body>
+</html>
