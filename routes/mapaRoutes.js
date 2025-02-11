@@ -4,4 +4,4 @@ const mapaController = require('../controllers/mapaController');
 
 router.get('/api/mapa/:id', mapaController.obtenerPuntosRuta);
 
-module.exports = router
+module.exports = router;

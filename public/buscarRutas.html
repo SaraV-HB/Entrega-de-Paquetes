@@ -1,88 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buscar Rutas Programadas</title>
-  <!-- Bootstrap CSS -->
+  <title>Express Delivery - Buscar Rutas</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link href="/css/styles.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Entrega de Paquetes</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-truck-moving mr-2"></i>Envíos
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/vehiculos.html">Vehículos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/conductores.html">Conductores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/buscarRutas.html">Buscar Rutas</a>
-        </li>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="/vehiculos.html">Vehículos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/conductores.html">Conductores</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a></li>
+        <li class="nav-item"><a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/buscarRutas.html">Buscar Rutas</a></li>
       </ul>
     </div>
   </nav>
-  <div class="container mt-5">
-    <div class="card">
+
+  <section class="container py-5">
+    <div class="card feature-card">
       <div class="card-body">
-        <h1 class="mb-4">Buscar Rutas Programadas</h1>
+        <h2 class="mb-4">Buscar Rutas Programadas</h2>
         <form id="buscar-rutas-form" class="mb-4">
           <div class="form-group">
             <label for="buscar-vehiculo">Buscar por Vehículo</label>
             <select class="form-control" id="buscar-vehiculo">
               <option value="">Seleccionar Vehículo</option>
-              <!-- Opciones de vehículos se cargarán aquí -->
             </select>
           </div>
           <div class="form-group">
             <label for="buscar-conductor">Buscar por Conductor</label>
             <select class="form-control" id="buscar-conductor">
               <option value="">Seleccionar Conductor</option>
-              <!-- Opciones de conductores se cargarán aquí -->
             </select>
           </div>
           <div class="form-group">
             <label for="buscar-fecha">Buscar por Fecha</label>
             <input type="date" class="form-control" id="buscar-fecha">
           </div>
-          <button type="submit" class="btn btn-primary">Buscar</button>
+          <button type="submit" class="btn btn-custom">Buscar</button>
         </form>
-        <div id="rutas-list">
-          <h2>Lista de Rutas Programadas</h2>
-          <table class="table table-striped">
-            <thead class="thead-dark">
-              <tr>
-                <th>Conductor</th>
-                <th>Vehículo</th>
-                <th>Fecha</th>
-                <th>Ruta</th>
-                <th>Mapa</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Aquí se mostrarán las rutas programadas -->
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
-  </div>
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
+
+    <div class="mt-5">
+      <h2>Lista de Rutas Programadas</h2>
+      <div id="rutas-list" class="feature-card p-4">
+        <table class="table table-striped" style="color: white;">
+          <thead class="thead-dark">
+            <tr>
+              <th>Conductor</th>
+              <th>Vehículo</th>
+              <th>Fecha</th>
+              <th>Ruta</th>
+              <th>Mapa</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -100,7 +91,7 @@
             conductorSelect.appendChild(option);
           });
         });
-
+  
       fetch('/api/vehiculos')
         .then(response => response.json())
         .then(data => {
@@ -113,20 +104,20 @@
           });
         });
     }
-
+  
     // Buscar rutas programadas y mostrarlas en la tabla
     document.getElementById('buscar-rutas-form').addEventListener('submit', function(event) {
       event.preventDefault();
       const vehiculo = document.getElementById('buscar-vehiculo').value;
       const conductor = document.getElementById('buscar-conductor').value;
       const fecha = document.getElementById('buscar-fecha').value;
-
+  
       let query = `/api/rutasProgramadas?`;
       if (vehiculo) query += `vehiculo=${vehiculo}&`;
       if (conductor) query += `conductor=${conductor}&`;
       if (fecha) query += `fecha=${fecha}&`;
       query = query.slice(0, -1); // Remove trailing '&'
-
+  
       fetch(query)
         .then(response => response.json())
         .then(data => {
@@ -153,7 +144,7 @@
             });
         });
     });
-
+  
     // Inicializar el formulario y cargar opciones al cargar la página
     window.onload = function() {
       cargarOpciones();

@@ -1,47 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Ruta</title>
+  <title>Express Delivery - Mapa de Ruta</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-  <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Entrega de Paquetes</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-truck-moving mr-2"></i>Envíos
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/vehiculos.html">Vehículos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/conductores.html">Conductores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/buscarRutas.html">Buscar Rutas</a>
-        </li>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="/vehiculos.html">Vehículos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/conductores.html">Conductores</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a></li>
+        <li class="nav-item"><a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/mapaRuta.html">Mapa de Ruta</a></li>
       </ul>
     </div>
   </nav>
-  <div class="container mt-5">
+
+  <section class="container py-5">
     <div class="row">
       <div class="col-md-8">
         <div id="map" style="height: 600px;"></div>
       </div>
       <div class="col-md-4">
-        <div class="card">
+        <div class="card feature-card">
           <div class="card-body">
             <h5 class="card-title">Agregar Nuevo Punto</h5>
             <form id="nuevo-punto-form">
@@ -49,6 +43,11 @@
                 <label for="ruta-id">Ruta ID</label>
                 <input type="text" class="form-control" id="ruta-id" readonly>
               </div>
+              <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" class="form-control" id="direccion">
+              </div>
+              <button type="button" class="btn btn-custom mb-3" onclick="buscarDireccion()">Buscar</button>
               <div class="form-group">
                 <label for="latitud">Latitud</label>
                 <input type="text" class="form-control" id="latitud" readonly>
@@ -58,52 +57,48 @@
                 <input type="text" class="form-control" id="longitud" readonly>
               </div>
               <div class="form-group">
-                <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" required>
-              </div>
-              <div class="form-group">
                 <label for="numero-paquete">Número de Paquete</label>
                 <input type="number" class="form-control" id="numero-paquete" required>
               </div>
-              <button type="submit" class="btn btn-primary">Guardar Punto</button>
+              <button type="submit" class="btn btn-custom">Guardar Punto</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const rutaId = urlParams.get('rutaId');
-
+  
     document.getElementById('ruta-id').value = rutaId;
-
+  
     const map = L.map('map').setView([4.757786586246297, -74.04488664305592], 13); // Centrar el mapa en la bodega
-
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-
+  
     // Coordenadas de la bodega
     const bodegaCoords = [4.757786586246297, -74.04488664305592];
-
+  
     // Marcador de la bodega
     L.marker(bodegaCoords)
       .addTo(map)
       .bindPopup('Bodega')
       .openPopup();
-
+  
     let marker;
-    let routingControl;
-
-    // Función para obtener la dirección a partir de las coordenadas usando HERE 
+    let polyline;
+  
+    // Función para obtener la dirección a partir de las coordenadas con la api HERE 
     async function obtenerDireccion(lat, lng) {
-      const apiKey = 'TEUKyX5S9LN2dt4vE1zTONd92KV1NIvGM46XnEmFl7I';// APIKEY
+      const apiKey = 'TEUKyX5S9LN2dt4vE1zTONd92KV1NIvGM46XnEmFl7I'; // APIKEY
       const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${lng}&apiKey=${apiKey}`;
       try {
         const response = await fetch(url);
@@ -118,7 +113,77 @@
         return 'Error al obtener la dirección';
       }
     }
-
+  
+    // Función para buscar una dirección y ubicarla en el mapa
+    async function buscarDireccion() {
+      const direccion = document.getElementById('direccion').value;
+      if (!direccion) {
+        alert('Por favor, ingresa una dirección.');
+        return;
+      }
+  
+      const apiKey = 'TEUKyX5S9LN2dt4vE1zTONd92KV1NIvGM46XnEmFl7I'; // APIKEY
+      const url = `https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(direccion)}&apiKey=${apiKey}`;
+  
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.items && data.items[0]) {
+          const ubicacion = data.items[0].position;
+          const lat = ubicacion.lat;
+          const lng = ubicacion.lng;
+  
+          // Ubicar la dirección en el mapa
+          if (marker) {
+            map.removeLayer(marker);
+          }
+          marker = L.marker([lat, lng]).addTo(map);
+          map.setView([lat, lng], 15); // Centrar el mapa en la nueva ubicación
+  
+          // Autocompletar latitud y longitud
+          document.getElementById('latitud').value = lat;
+          document.getElementById('longitud').value = lng;
+  
+          // Obtener la dirección formateada
+          const direccionFormateada = await obtenerDireccion(lat, lng);
+          document.getElementById('direccion').value = direccionFormateada;
+        } else {
+          alert('No se encontró la dirección.');
+        }
+      } catch (error) {
+        console.error('Error al buscar la dirección:', error);
+        alert('Error al buscar la dirección.');
+      }
+    }
+  
+    // Función para trazar la ruta optimizada usando OSRM Trip API
+    async function trazarRutaOptima(puntos) {
+      if (polyline) {
+        map.removeLayer(polyline); // Eliminar la ruta anterior
+      }
+  
+      if (puntos.length > 1) {
+        // Construir la URL de OSRM Trip API (optimización de ruta)
+        const osrmUrl = `https://router.project-osrm.org/trip/v1/driving/${puntos.map(p => `${p.lng},${p.lat}`).join(';')}?source=first&destination=last&roundtrip=false&overview=full&geometries=geojson`;
+  
+        console.log("OSRM URL:", osrmUrl);
+  
+        // Llamar a OSRM para obtener la ruta optimizada
+        fetch(osrmUrl)
+          .then(response => response.json())
+          .then(routeData => {
+            console.log("Datos de OSRM:", routeData);
+            if (routeData.trips && routeData.trips.length > 0) {
+              const coordinates = routeData.trips[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+              polyline = L.polyline(coordinates, { color: 'blue' }).addTo(map);
+            } else {
+              console.warn("No se pudo calcular la ruta con OSRM.");
+            }
+          })
+          .catch(error => console.error("Error al obtener la ruta optimizada:", error));
+      }
+    }
+  
     // Evento click del mapa
     map.on('click', async function(e) {
       if (marker) {
@@ -127,13 +192,13 @@
       marker = L.marker(e.latlng).addTo(map);
       document.getElementById('latitud').value = e.latlng.lat;
       document.getElementById('longitud').value = e.latlng.lng;
-
-      // Obtener la dirección usando HERE
+  
+      // Obtener la dirección con la api HERE
       const direccion = await obtenerDireccion(e.latlng.lat, e.latlng.lng);
       document.getElementById('direccion').value = direccion;
     });
-
-    document.getElementById('nuevo-punto-form').addEventListener('submit', function(event) {
+  
+    document.getElementById('nuevo-punto-form').addEventListener('submit', async function(event) {
       event.preventDefault();
       const nuevoPunto = {
         ruta_id: rutaId,
@@ -142,55 +207,47 @@
         direccion: document.getElementById('direccion').value,
         numero_paquete: document.getElementById('numero-paquete').value
       };
-
-      fetch('/api/detalleRutas', {
+  
+      // Guardar el nuevo punto en la base de datos
+      const response = await fetch('/api/detalleRutas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(nuevoPunto)
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert('Punto agregado exitosamente');
-        window.location.reload();
-      })
-      .catch(error => {
-        console.error('Error:', error);
       });
+  
+      if (response.ok) {
+        alert('Punto agregado exitosamente');
+        window.location.reload(); // Recargar la página para actualizar la ruta
+      } else {
+        console.error('Error al guardar el punto:', response.statusText);
+      }
     });
-
-    // Cargar los puntos de la ruta y calcular la ruta más rápida
+  
+    // Cargar los puntos de la ruta y trazar la ruta optimizada
     fetch(`/api/mapa/${rutaId}`)
       .then(response => response.json())
       .then(data => {
         const puntos = data.map(punto => L.latLng(punto.latitud, punto.longitud));
-
-        // Agregar la bodega como primer punto de la ruta
+  
         puntos.unshift(L.latLng(bodegaCoords[0], bodegaCoords[1]));
-
+  
         // Mostrar marcadores en el mapa
         puntos.forEach((punto, index) => {
           if (index === 0) {
+            // El primer punto es la bodega
             L.marker(punto).addTo(map)
               .bindPopup('Bodega');
           } else {
+            // Los demás puntos son entregas
             L.marker(punto).addTo(map)
               .bindPopup(`Punto ${index}: ${data[index - 1].direccion}`);
           }
         });
-
-        // Calcular y mostrar la ruta más rápida
-        if (puntos.length > 1) {
-          routingControl = L.Routing.control({
-            waypoints: puntos,
-            routeWhileDragging: true,
-            show: false, // Oculta el panel de instrucciones
-            lineOptions: {
-              styles: [{ color: 'blue', opacity: 0.7, weight: 5 }] 
-            }
-          }).addTo(map);
-        }
+  
+        // Trazar la ruta optimizada
+        trazarRutaOptima(puntos);
       });
   </script>
 </body>

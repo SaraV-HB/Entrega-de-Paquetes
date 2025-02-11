@@ -27,7 +27,8 @@ const addVehiculo = (req, res) => {
   const vehiculo = req.body;
   vehiculosModel.addVehiculo(vehiculo, (err, result) => {
     if (err) {
-      res.status(500).json({ error: err });
+      console.error("Error al agregar el vehículo:", err); // Mensaje de error detallado
+      res.status(500).json({ error: err.message });
     } else {
       res.status(201).json(result);
     }

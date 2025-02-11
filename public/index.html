@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Detalle de Rutas</title>
-  <!-- Bootstrap CSS -->
+  <title>Express Delivery - Gestión de Rutas</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link href="/css/styles.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Entrega de Paquetes</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-truck-moving mr-2"></i>Envíos
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" href="/vehiculos.html">Vehículos</a>
         </li>
@@ -29,19 +29,56 @@
           <a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/detalleRutas.html">Detalle de Rutas</a>
+          <a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/buscarRutas.html">Buscar Rutas</a>
+          <a class="nav-link" href="/buscarRutas.html">Buscar Rutas</a>
         </li>
       </ul>
     </div>
   </nav>
-  
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
+
+  <section class="hero text-center">
+    <div class="container">
+      <h1>Gestión de Envíos</h1>
+      <p class="lead mb-4">Proyecto Final Programación por Componentes</p>
+      <a href="/rutasProgramadas.html" class="btn btn-custom">Programar Ruta</a>
+    </div>
+  </section>
+
+  <section class="features py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <a href="/detalleRutas.html" class="feature-link">
+            <div class="feature-card glow-effect text-center">
+              <i class="fas fa-route feature-icon"></i>
+              <h3>Optimización de Rutas</h3>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="/vehiculos.html" class="feature-link">
+            <div class="feature-card glow-effect text-center">
+              <i class="fas fa-truck feature-icon"></i>
+              <h3>Gestión de Vehículos</h3>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="/conductores.html" class="feature-link">
+            <div class="feature-card glow-effect text-center">
+              <i class="fas fa-user-friends feature-icon"></i>
+              <h3>Control de Conductores</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-

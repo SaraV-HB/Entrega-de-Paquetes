@@ -1,52 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Detalle de Rutas</title>
-  <!-- Bootstrap CSS -->
+  <title>Express Delivery - Detalle de Rutas</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link href="/css/styles.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Entrega de Paquetes</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-truck-moving mr-2"></i>Envíos
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/vehiculos.html">Vehículos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/conductores.html">Conductores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/detalleRutas.html">Detalle de Rutas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="/buscarRutas.html">Buscar Rutas</a>
-        </li>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="/vehiculos.html">Vehículos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/conductores.html">Conductores</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/detalleRutas.html">Detalle de Rutas</a></li>
+        <li class="nav-item"><a class="nav-link" href="/buscarRutas.html">Buscar Rutas</a></li>
       </ul>
     </div>
   </nav>
-  <div class="container mt-5">
-    <div class="card">
+
+  <section class="container py-5">
+    <div class="card feature-card">
       <div class="card-body">
-        <h1 class="mb-4">Gestión de Detalle de Rutas</h1>
+        <h2 class="mb-4">Agregar Detalle de Ruta</h2>
         <form id="detalle-ruta-form" class="mb-4">
           <div class="form-group">
             <label for="ruta">Ruta</label>
-            <select class="form-control" id="ruta" required>
-              <!-- Opciones de rutas se cargarán aquí -->
-            </select>
+            <select class="form-control" id="ruta" required></select>
           </div>
           <div class="form-group">
             <label for="latitud">Latitud</label>
@@ -64,33 +53,36 @@
             <label for="numero_paquete">Número de Paquete</label>
             <input type="number" class="form-control" id="numero_paquete" required>
           </div>
-          <button type="submit" class="btn btn-primary">Guardar Detalle de Ruta</button>
+          <button type="submit" class="btn btn-custom">Guardar Detalle de Ruta</button>
           <input type="hidden" id="editMode" value="false">
           <input type="hidden" id="detalleRutaId" value="">
         </form>
-        <div id="detalles-ruta-list">
-          <h2>Lista de Detalles de Rutas</h2>
-          <table class="table table-striped">
-            <thead class="thead-dark">
-              <tr>
-                <th>ID</th>
-                <th>Ruta</th>
-                <th>Latitud</th>
-                <th>Longitud</th>
-                <th>Dirección</th>
-                <th>Número de Paquete</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Aquí se mostrarán los detalles de rutas -->
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
-  </div>
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
+
+    <div class="mt-5">
+      <h2>Lista de Detalles de Rutas</h2>
+      <div id="detalles-ruta-list" class="feature-card p-4">
+        <table class="table table-striped" style="color: white;">
+          <thead class="thead-dark">
+            <tr>
+              <th>ID</th>
+              <th>Ruta</th>
+              <th>Latitud</th>
+              <th>Longitud</th>
+              <th>Dirección</th>
+              <th>Número de Paquete</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Aquí se mostrarán los detalles de rutas -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -113,7 +105,7 @@
           });
         });
     }
-
+  
     // Cargar detalles de rutas y mostrarlos en la tabla
     function cargarDetallesRutas() {
       fetch('/api/detalleRutas')
@@ -132,15 +124,17 @@
               <td>${detalle.direccion}</td>
               <td>${detalle.numero_paquete}</td>
               <td>
-                <button class="btn btn-warning btn-sm" onclick="editarDetalleRuta('${detalle.id}')">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="eliminarDetalleRuta('${detalle.id}')">Eliminar</button>
+                <button class="btn btn-custom" onclick="editarDetalleRuta('${detalle.id}')">Editar</button>
+              </td>
+              <td>
+                <button class="btn btn-custom"  onclick="eliminarDetalleRuta('${detalle.id}')">Eliminar</button>
               </td>
             `;
             tableBody.appendChild(row);
           });
         });
     }
-
+  
     // Agregar o actualizar un detalle de ruta
     document.getElementById('detalle-ruta-form').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -151,7 +145,7 @@
         direccion: document.getElementById('direccion').value,
         numero_paquete: document.getElementById('numero_paquete').value
       };
-
+  
       const detalleRutaId = document.getElementById('detalleRutaId').value;
       const editMode = document.getElementById('editMode').value;
       const method = editMode === "true" ? 'PUT' : 'POST';
@@ -172,7 +166,7 @@
         document.getElementById('detalleRutaId').value = "";
       });
     });
-
+  
     // Eliminar un detalle de ruta
     function eliminarDetalleRuta(id) {
       fetch(`/api/detalleRutas/${id}`, {
@@ -182,7 +176,7 @@
         document.getElementById(`detalle-${id}`).remove();
       });
     }
-
+  
     // Rellenar los campos del formulario para editar un detalle de ruta
     function editarDetalleRuta(id) {
       fetch(`/api/detalleRutas/${id}`)
@@ -197,7 +191,7 @@
           document.getElementById('detalleRutaId').value = id;
         });
     }
-
+  
     // Inicializar el formulario y cargar opciones al cargar la página
     window.onload = function() {
       cargarOpcionesRutas();
@@ -206,4 +200,3 @@
   </script>
 </body>
 </html>
-
