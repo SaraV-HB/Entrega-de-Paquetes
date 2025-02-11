@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Express Delivery - Gestión de Rutas</title>
+  <title>Gestión de Detalle de Rutas</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="/">
-      <i class="fas fa-truck-moving mr-2"></i>Envíos
-    </a>
+    <a class="navbar-brand" href="/">Entrega de Paquetes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="/vehiculos.html">Vehículos</a>
         </li>
@@ -29,7 +27,7 @@
           <a class="nav-link" href="/rutasProgramadas.html">Rutas Programadas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/detalleRutas.html">Detalle de Rutas</a>
+          <a class="nav-link active" href="/detalleRutas.html">Detalle de Rutas</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/buscarRutas.html">Buscar Rutas</a>
@@ -38,39 +36,43 @@
     </div>
   </nav>
 
-  <section class="hero text-center">
-    <div class="container">
-      <h1>Gestión de Envíos</h1>
-      <p class="lead mb-4">Proyecto Final Programación por Componentes</p>
-      <a href="/rutasProgramadas.html" class="btn btn-custom">Programar Ruta</a>
-    </div>
-  </section>
-
-  <section class="features py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <a href="/detalleRutas.html" class="feature-link">
-            <div class="feature-card glow-effect text-center">
-              <i class="fas fa-route feature-icon"></i>
-              <h3>Optimización de Rutas</h3>
-            </div>
+  <section class="hero">
+    <div class="main-container">
+      <div class="hero-content">
+        <h1>Sistema de Gestión de Rutas</h1>
+        <p class="lead text-secondary">Parcial Final Programación por componentes</p>
+      </div>
+      <div class="management-container">
+        <div class="management-card">
+          <i class="fas fa-truck feature-icon"></i>
+          <h3>Vehículos</h3>
+          <p>Gestionar vehículos</p>
+          <a href="/vehiculos.html" class="management-btn">
+            <i class="fas fa-cog mr-2"></i>Gestionar
           </a>
         </div>
-        <div class="col-md-4 mb-4">
-          <a href="/vehiculos.html" class="feature-link">
-            <div class="feature-card glow-effect text-center">
-              <i class="fas fa-truck feature-icon"></i>
-              <h3>Gestión de Vehículos</h3>
-            </div>
+        <div class="management-card">
+          <i class="fas fa-users feature-icon"></i>
+          <h3>Conductores</h3>
+          <p>Administrar conductores</p>
+          <a href="/conductores.html" class="management-btn">
+            <i class="fas fa-cog mr-2"></i>Gestionar
           </a>
         </div>
-        <div class="col-md-4 mb-4">
-          <a href="/conductores.html" class="feature-link">
-            <div class="feature-card glow-effect text-center">
-              <i class="fas fa-user-friends feature-icon"></i>
-              <h3>Control de Conductores</h3>
-            </div>
+        <div class="management-card">
+          <i class="fas fa-route feature-icon"></i>
+          <h3>Rutas</h3>
+          <p>Planificar rutas</p>
+          <a href="/rutasProgramadas.html" class="management-btn">
+            <i class="fas fa-cog mr-2"></i>Planificar
+          </a>
+        </div>
+        <div class="management-card">
+          <i class="fas fa-calendar-alt feature-icon"></i>
+          <h3>Agendar Rutas</h3>
+          <p>Programar nuevas entregas</p>
+          <a href="/rutasProgramadas.html" class="management-btn">
+            <i class="fas fa-cog mr-2"></i>Programar
           </a>
         </div>
       </div>
