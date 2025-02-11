@@ -1,7 +1,7 @@
-const connection = require('../config/dbConfig');
+const conductoresModel = require('../models/conductorModel');
 
 const getConductores = (req, res) => {
-  connection.query('SELECT * FROM conductor', (err, results) => {
+  conductoresModel.getConductores((err, results) => {
     if (err) {
       res.status(500).json({ error: err });
     } else {
@@ -12,48 +12,48 @@ const getConductores = (req, res) => {
 
 const getConductorById = (req, res) => {
   const { id } = req.params;
-  connection.query('SELECT * FROM conductor WHERE id = ?', [id], (err, results) => {
+  conductoresModel.getConductorById(id, (err, result) => {
     if (err) {
-      res.status(500).json({ error: err });
-    } else if (results.length === 0) {
+      res.status(500).json({ error: err.message });
+    } else if (!result) {
       res.status(404).json({ message: 'Conductor no encontrado' });
     } else {
-      res.json(results[0]);
+      res.json(result);
     }
   });
 };
 
 const addConductor = (req, res) => {
-  const { nombres, apellidos, numero_licencia, telefono, correo } = req.body;
-  connection.query('INSERT INTO conductor (nombres, apellidos, numero_licencia, telefono, correo) VALUES (?, ?, ?, ?, ?)', [nombres, apellidos, numero_licencia, telefono, correo], (err, result) => {
+  const conductor = req.body;
+  conductoresModel.addConductor(conductor, (err, result) => {
     if (err) {
       res.status(500).json({ error: err });
     } else {
-      res.status(201).json({ id: result.insertId, nombres, apellidos, numero_licencia, telefono, correo });
+      res.status(201).json(result);
     }
   });
 };
 
 const updateConductor = (req, res) => {
   const { id } = req.params;
-  const { nombres, apellidos, numero_licencia, telefono, correo } = req.body;
-  connection.query('UPDATE conductor SET nombres = ?, apellidos = ?, numero_licencia = ?, telefono = ?, correo = ? WHERE id = ?', [nombres, apellidos, numero_licencia, telefono, correo, id], (err, result) => {
+  const conductor = req.body;
+  conductoresModel.updateConductor(id, conductor, (err, result) => {
     if (err) {
-      res.status(500).json({ error: err });
-    } else if (result.affectedRows === 0) {
+      res.status(500).json({ error: err.message });
+    } else if (!result) {
       res.status(404).json({ message: 'Conductor no encontrado' });
     } else {
-      res.json({ id, nombres, apellidos, numero_licencia, telefono, correo });
+      res.json(result);
     }
   });
 };
 
 const deleteConductor = (req, res) => {
   const { id } = req.params;
-  connection.query('DELETE FROM conductor WHERE id = ?', [id], (err, result) => {
+  conductoresModel.deleteConductor(id, (err, result) => {
     if (err) {
-      res.status(500).json({ error: err });
-    } else if (result.affectedRows === 0) {
+      res.status(500).json({ error: err.message });
+    } else if (!result) {
       res.status(404).json({ message: 'Conductor no encontrado' });
     } else {
       res.status(204).send();

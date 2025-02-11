@@ -73,6 +73,7 @@
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
+                <th>ID</th>
                 <th>Ruta</th>
                 <th>Latitud</th>
                 <th>Longitud</th>
@@ -124,6 +125,7 @@
             const row = document.createElement('tr');
             row.id = `detalle-${detalle.id}`;
             row.innerHTML = `
+              <td>${detalle.id}</td>
               <td>${detalle.ruta_id}</td>
               <td>${parseFloat(detalle.latitud).toFixed(6)}</td>
               <td>${parseFloat(detalle.longitud).toFixed(6)}</td>

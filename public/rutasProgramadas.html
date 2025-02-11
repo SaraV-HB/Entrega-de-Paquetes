@@ -71,6 +71,7 @@
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
+                <th>ID</th>
                 <th>Conductor</th>
                 <th>Vehículo</th>
                 <th>Fecha</th>
@@ -129,6 +130,7 @@
             const row = document.createElement('tr');
             row.id = `ruta-${ruta.id}`;
             row.innerHTML = `
+              <td>${ruta.id}</td>
               <td>${ruta.conductor_id}</td>
               <td>${ruta.vehiculo_placa}</td>
               <td>${ruta.fecha}</td>
